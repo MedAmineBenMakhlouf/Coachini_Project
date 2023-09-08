@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+    <title>Login and Registration</title>
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/font-awesome.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-training-studio.css') }}">
+
+    </head>
+    
+    <body>
+    
+    <!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+      <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+    
+    
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="#top" class="logo">Coachini<em>.</em></a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <!-- <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="#trainers">Our Coachs</a></li> -->
+                            <!-- <li class="scroll-to-section"><a href="">create</a></li>  -->
+                            <li class="main-button"><a href="/">Home</a></li>
+                        </ul>        
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <section class="section" id="schedule">
+        <div class="contact-form d-flex justify-content-around align-items-center p-5">
+                <!-- FORM INPUTS LOG / REG -->
+            <div class="col-lg-4 col-md-12 col-xs-12">
+                <div class="mt-4">
+                    <h3 class="text-danger mb-3">Rules and Guidelines:</h3>
+                    <ul class="text-light">
+                        <li>Participants must follow the instructions of the trainers at all times.</li>
+                        <li>Appropriate workout attire is required.</li>
+                        <li>Do not use equipment without proper knowledge or supervision.</li>
+                        <li>Clean and return equipment to its designated place after use.</li>
+                        <li>Refrain from loud or disruptive behavior in the gym area.</li>
+                        <li>Personal belongings should be stored in the designated lockers.</li>
+                        <li>Food and beverages are not allowed in the gym.</li>
+                        <li>Use a towel to wipe down equipment after use.</li>
+                        <li>Respect the scheduled training times and reservations.</li>
+                        <li>Report any equipment malfunctions or issues to the staff.</li>
+                    </ul>
+                </div>
+                <div class="mt-4">
+                    <p>By registering, you agree to adhere to the above rules and guidelines. Failure to comply may result in suspension or termination of gym privileges.</p>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-12 col-xs-12 d-flex justify-content-between">
+                <div class="col-lg-6 col-md-12 col-xs-12">
+                    <form id="contact" action="/users/create" method="post" enctype="multipart/form-data">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6 col-xs-12">
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            <label for="role" class="text-light">Register:</label>
+                                            {% for message in get_flashed_messages(category_filter=["role"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <select id="options" name="role" class="w-100 mb-4 p-1" onchange="user_user_measures()">
+                                                <option id="n" value="" ><span class="text-dark">----choose your role----</span></option>
+                                                <option id="c" value="c">Coach</option>
+                                                <option id="u" value="u">Trainee</option>
+                                                <option id="a" value="a">Admin</option>
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["first_name"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <input name="first_name" type="text" id="first_name" placeholder="First Name*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["last_name"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <input name="last_name" type="text" id="last_name" placeholder="Last Name*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["email"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <input name="email" type="text" id="email" placeholder="Your Email*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6 hidden" id="dynamicInputContainer">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["height"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <input name="height" type="number" id="height" placeholder="Height(cm)*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6 hidden" id="dynamicInputContainer">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["weight"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <input name="weight" type="number" id="weight" placeholder="Weight(kg)*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["password"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <input name="password" type="password" id="password" placeholder="Password*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            <input name="confirm_password" type="password" id="confirm_password" placeholder="Confirm Password*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-11 col-sm-6 ml-3" id="hidden_file">
+                                        <fieldset>
+                                            {% for message in get_flashed_messages(category_filter=["file"]) %}
+                                                <span class="text-danger">{{message}}</span>
+                                            {% endfor %}
+                                            <label class="custom-file-label" for="fileInput">Upload your picture</label>
+                                            <input type="file" class="custom-file-input" id="fileInput" accept=".jpg .jpeg .png" name="file">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12 d-flex">
+                                        <fieldset>
+                                            <input type="submit" id="form-submit" value="Register" class="btn main-button w-100 text-danger">
+                                        </fieldset>
+                                    </div>
+                                    <!-- <form method="post">
+                                        <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
+                                        <br>
+                                        <input type="submit" value="Submit">
+                                    </form> -->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-5 col-md-12 col-xs-12">
+                    <form id="contact" action="/login" method="post">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6 col-xs-12">
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            <label for="email" class="text-light">Login:</label>
+                                            {% for message in get_flashed_messages(category_filter=["login"]) %}
+                                                <p class="text-danger">{{message}}</p>
+                                            {% endfor %}
+                                            <input name="email" type="text" id="email" placeholder="Your Email*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                        <fieldset>
+                                            <input name="password" type="password" id="password" placeholder="Password*">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <fieldset>
+                                            <input type="submit" id="form-submit" value="Login" class="btn main-button w-100 text-danger">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        
+                <!-- END FORM LOG / REG -->
+        </div>
+    </section>
+
+    
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; 2023 COACHINI
+                    
+                    - Designed by <a rel="nofollow" href="" class="tm-text-link" target="_parent">SHARKS.Limited</a></p>
+                    
+                    <!-- You shall support us a little via PayPal to info@templatemo.com -->
+                    
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Main JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='assets/js/jquery-2.1.0.min.js') }}
+    "></script>
+
+    <!-- Bootstrap -->
+    <script src="{{ url_for('static', filename='assets/js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugins -->
+    <script src="{{ url_for('static', filename='assets/js/scrollreveal.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/imgfix.min.js') }}"></script> 
+    <script src="{{ url_for('static', filename='assets/js/mixitup.js') }}"></script> 
+    <script src="{{ url_for('static', filename='assets/js/accordions.js') }}"></script>
+    
+    <!-- Global Init -->
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+</body>
+</html>

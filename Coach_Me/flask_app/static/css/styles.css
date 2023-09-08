@@ -1,0 +1,43 @@
+.hidden
+{
+    display: none;
+}
+
+.card_height
+{
+    height: 20%;
+}
+
+.profile_img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+/* NAV BAR drop down menu */
+.dropdown-menu .dropdown-item .btn-secondary {
+    width: 100%;
+    text-align: center;
+}
+
+
+/* Styling for smaller buttons */
+.dropdown-menu .dropdown-item .btn-secondary.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem; /* Adjust as needed */
+}
+
+
+.image-container {
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.image-container img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}

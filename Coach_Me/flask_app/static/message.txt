@@ -1,0 +1,13 @@
+1 git branch <model_name>
+2 git checkout <model_name>
+3 travail a faire
+4 git add .
+5 git commit -m "  Your commentary"
+5 git push --set-upstream origin <model_name>
+
+
+------
+--> push from main to dev
+git fetch origin main
+git pull origin main
+git push --set-upstream origin dev

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+        rel="stylesheet">
+
+    <title>Dashboard coach</title>
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/font-awesome.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-training-studio.css') }}">
+
+</head>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="#top" class="logo">Coachini<em>.</em></a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <!-- <li class="scroll-to-section"><a href="#top" class="active">Home</a></li> -->
+                            {%if user.is_valid==1 and user.is_banned==0%}
+                            <li class="scroll-to-section"><a href="/programs/new">Create program</a></li>
+                            {%endif%}
+                            <li class="scroll-to-section"><a href="">Welcome coach <span
+                                        class="text-danger">{{user.first_name}}</span></a></li>
+
+                            <div>
+                                {% if user.picture != '' %}
+                                <div class="image-container">
+                                    <a href="/users/edit"><img class="img-fluid"
+                                            src="{{ url_for('static', filename=user.picture.replace('flask_app/static/', '')) }}"
+                                            alt="profile picture"
+                                            style="width: 50px; height: 50px; border-radius: 50%;"></a>
+                                </div>
+                                {% else %}
+                                <a href="/users/edit"><i class="bi bi-person-circle"></i></a>
+                                {% endif %}
+                            </div>
+                            <li class="main-button">
+                                <form action="/logout" method="post">
+                                    <input type="submit" value="Logout" class="btn btn-danger">
+                                </form>
+                            </li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <section class="section" id="schedule">
+        <!-- WORK HERE -->
+        <div class="container">
+            <hr>
+            <!-- *** COACH IS BANNED MESSAGE *** -->
+            {%if user.is_banned!=0%}
+
+            <div class="container mt-4">
+                <div class="card p-4">
+                    <h2 class="mb-3">Important Account Information</h2>
+
+                    <p>Dear <span class="text-danger">{{user.first_name}}</span></p>
+
+                    <p>We regret to inform you that your account on [Platform/Service Name] has been temporarily banned
+                        due to [reason for the ban].</p>
+
+                    <p><strong>Reason for the Ban:</strong> [Explain the reason for the ban, including any violations of
+                        terms of service or community guidelines.]</p>
+
+                    <p><strong>Impact of the Ban:</strong></p>
+                    <ul>
+                        <li>Your account will be temporarily inaccessible.</li>
+                        <li>Contact us for more information.</li>
+                    </ul>
+
+                    <p>If you believe this ban was issued in error or if you have any questions, please don't hesitate
+                        to contact our support team at [support email/phone number].</p>
+
+                    <p>Thank you for your understanding and cooperation. We look forward to resolving this matter as
+                        smoothly as possible.</p>
+
+                    <p>Best regards,</p>
+                </div>
+            </div>
+
+            <!-- *** COACH IS VALID >>> List of programs *** -->
+            {%elif user.is_valid==1%}
+
+            <h2 class="text-light mb-3">My list of programs</h2>
+            <div class="container">
+                <div class="row">
+                    <table class="table table-striped table-bordered table-hover text-light">
+                        <thead>
+                            <tr>
+                                <th>Programs</th>
+                                <th>Categories</th>
+                                <th>Duration</th>
+                                <th>Description</th>
+                                <th>N° of enrolled</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for program in programs%}
+                            <tr>
+                                <td><a href="/programs/view/{{program.id}}">{{program.name_of_program}}</a></td>
+                                <td>{{program.category_name}}</td>
+                                <td>{{program.duration}} Weeks</td>
+                                <td>{{program.description_of_program}}</td>
+                                <td> you have {{program.enrolled}} enrolled</td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {%else%}
+            <div class="container mt-4">
+                <div class="card p-4">
+                    <h2 class="mb-3">Important Account Information</h2>
+
+                    <p>Dear <span class="text-danger">{{user.first_name}}</span>,</p>
+
+                    <p>We regret to inform you that your coach account on Coachini has not been validated by the admin
+                        yet.</p>
+
+                    <p><strong>Reason:</strong> Your account is currently undergoing verification to ensure the quality
+                        and accuracy of coaching content.</p>
+
+                    <p><strong>Impact:</strong></p>
+                    <ul>
+                        <li>Your account will remain inactive until admin validation is complete.</li>
+                        <li>You won't be able to access coaching features and programs.</li>
+                    </ul>
+
+                    <p>If you believe this validation process is taking longer than expected or if you have any
+                        questions, please don't hesitate to contact our support team at <a
+                            href="#">Choachini@support.com</a>.</p>
+
+                    <p>Thank you for your patience and understanding. We are working to get you onboarded as soon as
+                        possible.</p>
+
+                    <p>Best regards,</p>
+                </div>
+            </div>
+
+            {%endif%}
+        </div>
+
+
+
+        <!-- WORK HERE -->
+
+    </section>
+
+
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; 2023 COACHINI
+
+                        - Designed by <a rel="nofollow" href="" class="tm-text-link" target="_parent">SHARKS.Limited</a>
+                    </p>
+
+                    <!-- You shall support us a little via PayPal to info@templatemo.com -->
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='assets/js/jquery-2.1.0.min.js') }}
+    "></script>
+
+    <!-- Bootstrap -->
+    <script src="{{ url_for('static', filename='assets/js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugins -->
+    <script src="{{ url_for('static', filename='assets/js/scrollreveal.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/imgfix.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/mixitup.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/accordions.js') }}"></script>
+
+    <!-- Global Init -->
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+</body>
+
+</html>
