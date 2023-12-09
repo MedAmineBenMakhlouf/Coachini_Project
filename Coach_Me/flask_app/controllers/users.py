@@ -23,24 +23,21 @@ bcrypt = Bcrypt(app)
 @app.route('/')
 def index():
     coachs = User.get_valid_coachs_home()
+    
     print(coachs)
     return render_template("landing_page.html",coachs=coachs)
 
-# Define route for the Login and registration
 @app.route('/reg_log')
 def reg_log():
     return render_template("reg_log.html")
 
-# Define route for the coach dashboard
 @app.route('/dashboard_coach')
 def dashboard_coach():
-    # Check user role and session status
     if 'user_id' not in session:
         return redirect('/')
     if session['role'] != "c":
         return redirect('/')
     
-    # Get the logged-in user's information
     logged_user = User.get_by_id({'id': session['user_id']})
     coach_programs= Program.get_all_coach_program({'id': session['user_id']})
     for program in coach_programs:
@@ -53,15 +50,12 @@ def dashboard_coach():
 
     return render_template("dashboard_coach.html", user=logged_user, programs=coach_programs)
 
-# Define route for the user dashboard
 
 
 @app.route('/dashboard_user')
 def dashboard_user():
-    # Check user role and session status
     if session['role'] != "u" or 'user_id' not in session:
         return redirect('/')
-    # Get the logged-in user's information
     
     logged_user = User.get_by_id({'id': session['user_id']})
     print(logged_user)

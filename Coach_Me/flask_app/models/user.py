@@ -1,6 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import DATABASE_NAME
-from flask_app.models.program import Program
 from flask import flash
 import re	# the regex module
 # create a regular expression object that we'll use later   
@@ -74,7 +73,6 @@ class User:
         coachs = []
         if results:
             for row in results:
-                
                 coach = cls(row)
                 coachs.append(coach)
             return coachs
